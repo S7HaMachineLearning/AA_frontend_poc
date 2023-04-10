@@ -1,0 +1,7 @@
+{
+  "name": "AA_frontend_poc",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

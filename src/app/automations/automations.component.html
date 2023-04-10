@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Automations</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-button>View new automations</ion-button>
+
+<ion-content>
+  <ion-list-header>
+    <ion-label>Know automations</ion-label>
+  </ion-list-header>
+  <ion-list>
+    <ion-item *ngFor="let automation of automationList">
+      <ion-label>{{automation.id}}</ion-label>
+      <ion-label>{{automation.name}}</ion-label>
+      <ion-toggle [checked]="automation.enabled"></ion-toggle>
+    </ion-item>
+  </ion-list>
+</ion-content>
