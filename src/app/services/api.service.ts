@@ -35,4 +35,12 @@ export class ApiService {
     );
   }
 
+  callApi(): Observable<any> {
+    return this.http.post<any>(
+      this.url + "/ml",
+      {},
+      HTTP_HEADERS
+    );
+  }
+
 }

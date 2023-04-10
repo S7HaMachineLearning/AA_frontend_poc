@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -18,10 +18,22 @@ export class SensorsComponent implements OnInit {
 
   sensorList: Sensor[] = [];
 
-  constructor(private api: ApiService) { }
+  constructor(
+    private api: ApiService,
+    private toastController: ToastController
+  ) { }
 
   ngOnInit() {
     this.loadSensors();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 1500,
+      position: 'bottom'
+    });
+    await toast.present();
   }
 
   loadSensors() {
@@ -31,12 +43,14 @@ export class SensorsComponent implements OnInit {
         map((x: SensorResponse) => {
           return x.sensors;
         }),
-        tap((x: Sensor[]) => {
+        tap(async (x: Sensor[]) => {
           this.sensorList = [];
-          for (let index = 0; index < Object.keys(x).length; index++) {
+          const sensorCount = Object.keys(x).length;
+          for (let index = 0; index < sensorCount; index++) {
             const sensor = x[index];
             this.sensorList.push(sensor)
-          }       
+          }
+          await this.presentToast(`Got ${sensorCount} sensors!`)
         })
       ).subscribe();
   }

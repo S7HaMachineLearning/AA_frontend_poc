@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { Automation, AutomationResponse } from '../models/automation';
 import { ApiService } from '../services/api.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -18,11 +18,23 @@ export class AutomationsComponent implements OnInit {
 
   automationList: Automation[] = [];
 
-  constructor(private api: ApiService) { }
+  constructor(
+    private api: ApiService,
+    private toastController: ToastController
+  ) { }
 
   ngOnInit() {
     this.loadAutomations();
-   }
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 1500,
+      position: 'bottom'
+    });
+    await toast.present();
+  }
 
   loadAutomations() {
     this.api.getAutomations()
@@ -31,12 +43,16 @@ export class AutomationsComponent implements OnInit {
         map((x: AutomationResponse) => {
           return x.automations;
         }),
-        tap((x: Automation[]) => {
+        tap(async (x: Automation[]) => {
           this.automationList = [];
-          for (let index = 0; index < Object.keys(x).length; index++) {
+          const automationsCount = Object.keys(x).length;
+
+          for (let index = 0; index < automationsCount; index++) {
             const sensor = x[index];
             this.automationList.push(sensor)
-          }       
+          }
+
+          await this.presentToast(`Got ${automationsCount} automations!`)
         })
       ).subscribe();
   }
