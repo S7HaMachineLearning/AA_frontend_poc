@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Sensor, SensorResponse } from '../models/sensor';
 import { Automation, AutomationResponse } from '../models/automation';
+import { Bored } from '../models/bored';
 
 const HTTP_HEADERS = {
   headers: {
     'content-type': 'application/json',
-
   }
 };
 
@@ -15,7 +15,7 @@ const HTTP_HEADERS = {
   providedIn: 'root',
 })
 export class ApiService {
-  private url = "http://127.0.0.1:8000";
+  private url = "http://192.168.1.175:8000";
 
   constructor(private http: HttpClient) {
     console.warn('load')
@@ -41,6 +41,10 @@ export class ApiService {
       {},
       HTTP_HEADERS
     );
+  }
+
+  getBoredItem(): Observable<Bored> {
+    return this.http.get<Bored>("https://www.boredapi.com/api/activity");
   }
 
 }

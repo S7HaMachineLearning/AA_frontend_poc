@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>random stuff</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label class="col"><b>Pactivity</b></ion-label>
+      <ion-label class="col"><b>type</b></ion-label>
+      <ion-label class="col"><b>price</b></ion-label>
+      <ion-label class="col"><b>accessibility</b></ion-label>
+    </ion-item>
+    <ion-item *ngFor="let bored of boredItems">
+      <ion-label>{{bored.activity}}</ion-label>
+      <ion-label>{{bored.type}}</ion-label>
+      <ion-label>{{bored.price}}</ion-label>
+      <ion-label>{{bored.accessibility}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-button (click)="getBoredItem()">Add more random stuff</ion-button>

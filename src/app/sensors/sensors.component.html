@@ -6,6 +6,11 @@
 
 <ion-content>
   <ion-list>
+    <ion-item>
+      <ion-label class="col"><b>ID</b></ion-label>
+      <ion-label class="col"><b>Name</b></ion-label>
+      <ion-label class="col"><b>Type</b></ion-label>
+    </ion-item>
     <ion-item *ngFor="let sensor of sensorList">
       <ion-label>{{sensor.id}}</ion-label>
       <ion-label>{{sensor.name}}</ion-label>

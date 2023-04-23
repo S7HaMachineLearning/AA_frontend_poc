@@ -14,6 +14,7 @@ export class AppComponent {
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Sensor', url: '/sensors', icon: 'settings' },
     { title: 'Automations', url: '/automations', icon: 'play' },
+    { title: 'Random', url: '/random', icon: 'shuffle'}
   ];
   constructor() {}
 }
