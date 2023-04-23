@@ -1,12 +1,19 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
+
       <ion-content>
+        <div class="header-icon">
+          <img src="/assets/icon/logo.png" alt="AA Logo" class="logo" />
+        </div>
         <ion-list id="inbox-list">
-          <ion-list-header>POC</ion-list-header>
+          <ion-list-header class="header-text">
+            <span>POC</span>
+          </ion-list-header>
           <ion-note>AA POC 1</ion-note>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+              routerLinkActive="selected">
               <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>

@@ -117,3 +117,14 @@ ion-note {
 ion-item.selected {
   --color: var(--ion-color-primary);
 }
+
+.header-icon {
+  width: 100%;
+  text-align: center;
+
+  .logo {
+    border-radius: 50%;
+    height: 10svw;
+  }
+
+}

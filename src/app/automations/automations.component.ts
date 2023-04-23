@@ -4,7 +4,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { Automation, AutomationResponse } from '../models/automation';
 import { ApiService } from '../services/api.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { map, tap } from 'rxjs';
+import { catchError, map, tap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -27,11 +27,12 @@ export class AutomationsComponent implements OnInit {
     this.loadAutomations();
   }
 
-  async presentToast(message: string) {
+  async presentToast(message: string, color: string = "dark", duration: number = 1500) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 1500,
-      position: 'bottom'
+      duration,
+      position: 'bottom',
+      color,
     });
     await toast.present();
   }
@@ -46,13 +47,15 @@ export class AutomationsComponent implements OnInit {
         tap(async (x: Automation[]) => {
           this.automationList = [];
           const automationsCount = Object.keys(x).length;
-
           for (let index = 0; index < automationsCount; index++) {
             const sensor = x[index];
             this.automationList.push(sensor)
           }
-
           await this.presentToast(`Got ${automationsCount} automations!`)
+        }),
+        catchError(async (err) => {
+          console.warn('KAPOT');
+          await this.presentToast(`Error: ${err.message}`, "danger", 5000)
         })
       ).subscribe();
   }

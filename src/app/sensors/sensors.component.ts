@@ -3,7 +3,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { map, tap } from 'rxjs';
+import { catchError, map, tap } from 'rxjs';
 import { Sensor, SensorResponse } from '../models/sensor';
 
 @UntilDestroy()
@@ -27,11 +27,12 @@ export class SensorsComponent implements OnInit {
     this.loadSensors();
   }
 
-  async presentToast(message: string) {
+  async presentToast(message: string, color: string = "dark", duration: number = 1500) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 1500,
-      position: 'bottom'
+      duration,
+      position: 'bottom',
+      color,
     });
     await toast.present();
   }
@@ -51,6 +52,10 @@ export class SensorsComponent implements OnInit {
             this.sensorList.push(sensor)
           }
           await this.presentToast(`Got ${sensorCount} sensors!`)
+        }),
+        catchError(async (err) => {
+          console.warn('KAPOT');
+          await this.presentToast(`Error: ${err.message}`, "danger", 5000)
         })
       ).subscribe();
   }
